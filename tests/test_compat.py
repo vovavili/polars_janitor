@@ -6,11 +6,11 @@ import importlib.machinery
 import sysconfig
 
 import polars as pl
+import polars_janitor._rust as rust
 import pytest
 from polars.testing import assert_frame_equal
 
 import polars_janitor as pj
-import polars_janitor._rust as rust
 
 
 def test_rust_extension_matches_active_cpython_interpreter() -> None:

@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-
 from polars_janitor._rust import make_clean_names
 
 
