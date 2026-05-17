@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import csv
 import gc
+import importlib
 import os
 import shutil
 import statistics
@@ -20,16 +21,25 @@ import polars as pl
 
 import polars_janitor as pj
 
+try:
+    pyjanitor = importlib.import_module("janitor")
+except ImportError:
+    pyjanitor = None
+
+try:
+    importlib.import_module("janitor.polars")
+    pyjanitor_polars_available = True
+except ImportError:
+    pyjanitor_polars_available = False
+
+try:
+    pd = importlib.import_module("pandas")
+except ImportError:
+    pd = None
+
 if TYPE_CHECKING:
     from collections.abc import Callable
     from types import ModuleType
-
-try:
-    import janitor as pyjanitor
-    import pandas as pd
-except ImportError:
-    pyjanitor = None
-    pd = None
 
 
 PATTERNS = [
@@ -265,7 +275,46 @@ def bench_polars_janitor(
     ]
 
 
-def bench_pyjanitor(
+def bench_pyjanitor_polars(
+    *,
+    repeats: int,
+    clean_size: int,
+    header_size: int,
+) -> list[BenchmarkResult]:
+    """Run pyjanitor's Polars benchmark cases when that namespace is installed."""
+    if not pyjanitor_polars_available:
+        return []
+
+    clean_frame = make_polars_frame(clean_size)
+    sheet = make_polars_sheet(header_size)
+
+    return [
+        BenchmarkResult(
+            "clean_names",
+            clean_size,
+            "pyjanitor/Polars",
+            median_ms(
+                lambda: clean_frame.clean_names(strip_accents=True, remove_special=True),
+                repeats=repeats,
+            ),
+        ),
+        BenchmarkResult(
+            "row_to_names + clean_names",
+            header_size,
+            "pyjanitor/Polars",
+            median_ms(
+                lambda: sheet.row_to_names(
+                    row_numbers=1,
+                    remove_rows=True,
+                    remove_rows_above=True,
+                ).clean_names(strip_accents=True, remove_special=True),
+                repeats=repeats,
+            ),
+        ),
+    ]
+
+
+def bench_pyjanitor_pandas(
     *,
     repeats: int,
     clean_size: int,
@@ -385,10 +434,10 @@ def print_markdown(results: list[BenchmarkResult]) -> None:
     """Print a README-ready Markdown table."""
     by_key = {(result.task, result.size, result.implementation): result for result in results}
     task_sizes = sorted({(result.task, result.size) for result in results})
-    implementations = ["polars-janitor", "pyjanitor/pandas", "R janitor"]
+    implementations = ["polars-janitor", "pyjanitor/Polars", "pyjanitor/pandas", "R janitor"]
 
-    print("| Task | Size | polars-janitor | pyjanitor/pandas | R janitor |")
-    print("| --- | ---: | ---: | ---: | ---: |")
+    print("| Task | Size | polars-janitor | pyjanitor/Polars | pyjanitor/pandas | R janitor |")
+    print("| --- | ---: | ---: | ---: | ---: | ---: |")
     for task, size in task_sizes:
         values = []
         for implementation in implementations:
@@ -420,7 +469,12 @@ def main() -> None:
             header_size=args.header_size,
             compare_size=args.compare_size,
         ),
-        *bench_pyjanitor(
+        *bench_pyjanitor_polars(
+            repeats=args.repeats,
+            clean_size=args.clean_size,
+            header_size=args.header_size,
+        ),
+        *bench_pyjanitor_pandas(
             repeats=args.repeats,
             clean_size=args.clean_size,
             header_size=args.header_size,
