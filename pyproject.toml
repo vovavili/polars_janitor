@@ -60,6 +60,7 @@ dev = [
 
 [tool.maturin]
 bindings = "pyo3"
+features = ["extension-module"]
 module-name = "polars_janitor._rust"
 python-source = "src"
 include = [
