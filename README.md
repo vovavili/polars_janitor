@@ -23,6 +23,8 @@ import polars_janitor as pj
 pip install polars-janitor
 ```
 
+`polars-janitor` supports Python Polars `1.29.0` and newer. Older Polars `1.x` wheels do not expose the data exchange API this extension uses.
+
 From a local checkout:
 
 ```powershell
@@ -227,6 +229,8 @@ Those may be useful in R, but in Polars they either duplicate existing APIs or p
 ## Known limits
 
 LazyFrame support is deliberately conservative. `clean_names`, `remove_empty(..., axis="rows")`, and `get_dupes` can build lazy plans without collecting data. Column-removing helpers that need to inspect values are eager-only.
+
+The package supports Python Polars `1.29.0` and newer. Compatibility tests run against that lower bound and the current lockfile version.
 
 The project favors broad Python Polars compatibility over direct Rust deserialization of Python lazy plans. Eager frames cross through `pyo3-polars`; lazy frames keep their plans in Python Polars, with Rust deciding what public Polars plan to build.
 

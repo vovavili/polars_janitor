@@ -48,6 +48,11 @@ jobs:
       - name: Python tests
         run: uv run --extra dev pytest
 
+      - name: Lower-bound Polars smoke
+        run: |
+          uv pip install --reinstall "polars==1.29.0"
+          uv run --no-sync python scripts/smoke_public_api.py
+
       - name: Rust and lint gates
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.13'
         run: |
