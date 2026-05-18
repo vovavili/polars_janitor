@@ -6,6 +6,10 @@
 
 Small janitorial helpers for Polars dataframes.
 
+```bash
+pip install polars-janitor
+```
+
 This project is inspired by R's janitor, but it is not a parity port. The aim is smaller: keep a few boring dataframe cleanup chores easy, predictable, and Polars-shaped.
 
 ## Why this exists
