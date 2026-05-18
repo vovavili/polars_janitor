@@ -3,7 +3,7 @@ name = "polars-janitor-rust"
 version = "0.1.1"
 edition = "2021"
 description = "Small janitorial helpers for Polars dataframes."
-repository = "https://github.com/VovaVili/polars-janitor"
+repository = "https://github.com/VovaVili/polars_janitor"
 license = "MIT"
 
 [lib]

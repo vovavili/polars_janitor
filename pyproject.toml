@@ -46,10 +46,10 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/VovaVili/polars-janitor"
-Repository = "https://github.com/VovaVili/polars-janitor"
-Issues = "https://github.com/VovaVili/polars-janitor/issues"
-Changelog = "https://github.com/VovaVili/polars-janitor/releases"
+Homepage = "https://github.com/VovaVili/polars_janitor"
+Repository = "https://github.com/VovaVili/polars_janitor"
+Issues = "https://github.com/VovaVili/polars_janitor/issues"
+Changelog = "https://github.com/VovaVili/polars_janitor/releases"
 
 [project.optional-dependencies]
 dev = [

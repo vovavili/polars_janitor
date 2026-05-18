@@ -14,7 +14,7 @@ Draft:
 >
 > The design goal is to avoid wrappers around Polars APIs that are already clear. I would especially like feedback on the public API shape, LazyFrame limits, and whether the feature bar feels Polars-native enough.
 >
-> Repo: https://github.com/VovaVili/polars-janitor
+> Repo: https://github.com/VovaVili/polars_janitor
 > Install: `pip install polars-janitor`
 
 ## Hacker News after feedback
