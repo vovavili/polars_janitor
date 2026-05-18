@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
   push:
     tags:
+      # Version tags build wheels/sdist, verify artifacts, publish to PyPI, then create a GitHub release.
       - "v*"
 
 permissions:
@@ -188,10 +189,12 @@ jobs:
     needs: artifact-check
     if: startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
-    environment: pypi
+    environment:
+      name: pypi
+      url: https://pypi.org/project/polars-janitor/
     permissions:
       contents: read
-      id-token: write
+      id-token: write # Required for PyPI trusted publishing.
 
     steps:
       - uses: actions/download-artifact@v4
@@ -199,7 +202,8 @@ jobs:
           path: dist
           merge-multiple: true
 
-      - uses: pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b
+      - name: Publish distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b
         with:
           packages-dir: dist
 
