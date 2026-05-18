@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="docs/assets/logo.png" alt="polars-janitor logo" width="140">
+</div>
+
 # polars-janitor
 
 Small janitorial helpers for Polars dataframes.
