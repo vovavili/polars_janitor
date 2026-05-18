@@ -101,7 +101,7 @@ jobs:
           - "3.13"
           - "3.14"
         platform:
-          - os: macos-13
+          - os: macos-15-intel
             target: x86_64
           - os: macos-latest
             target: aarch64
