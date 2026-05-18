@@ -27,22 +27,6 @@ import polars as pl
 import polars_janitor as pj
 ```
 
-## Install
-
-```bash
-pip install polars-janitor
-```
-
-`polars-janitor` supports CPython 3.10 through 3.14 and Python Polars `1.29.0` and newer. Older Polars `1.x` wheels do not expose the data exchange API this extension uses.
-
-From a local checkout:
-
-```powershell
-uv run --extra dev maturin develop --release
-```
-
-The Rust extension is built for the Python interpreter active in your environment. If you switch interpreters, for example from CPython 3.14 to CPython 3.13, rebuild it. The compiled `_rust.*.pyd` on Windows, or `_rust.*.so` on Linux and macOS, is not portable across Python versions.
-
 ## Python usage
 
 ### Clean column names
@@ -291,16 +275,6 @@ pj.compare_df_cols_same({"left": left, "right": right})
 ```
 
 Schema comparison supports eager and lazy frames. It uses lazy schemas and does not collect lazy data.
-
-## Example
-
-Run the small messy-dataframe example from a checkout:
-
-```powershell
-uv run --extra dev python examples\messy_dataframe.py
-```
-
-The example promotes a spreadsheet header row, cleans names, removes empty rows and columns, drops constant columns, returns duplicate customer records, and compares schemas.
 
 ## What this is not
 
