@@ -25,7 +25,7 @@ import polars_janitor as pj
 pip install polars-janitor
 ```
 
-`polars-janitor` supports Python Polars `1.29.0` and newer. Older Polars `1.x` wheels do not expose the data exchange API this extension uses.
+`polars-janitor` supports CPython 3.10 through 3.14 and Python Polars `1.29.0` and newer. Older Polars `1.x` wheels do not expose the data exchange API this extension uses.
 
 From a local checkout:
 
@@ -33,7 +33,7 @@ From a local checkout:
 uv run --extra dev maturin develop --release
 ```
 
-The Rust extension is built for the Python interpreter active in your environment. If you switch interpreters, for example from CPython 3.13 to CPython 3.11, rebuild it. The compiled `_rust.*.pyd` on Windows, or `_rust.*.so` on Linux and macOS, is not portable across Python versions.
+The Rust extension is built for the Python interpreter active in your environment. If you switch interpreters, for example from CPython 3.14 to CPython 3.13, rebuild it. The compiled `_rust.*.pyd` on Windows, or `_rust.*.so` on Linux and macOS, is not portable across Python versions.
 
 ## Python usage
 
@@ -319,7 +319,7 @@ Those may be useful in R, but in Polars they either duplicate existing APIs or p
 
 LazyFrame support is deliberately conservative. `clean_names`, `remove_empty(..., axis="rows")`, `get_dupes`, `compare_df_cols`, and `compare_df_cols_same` can work from lazy schemas or build lazy plans without collecting data. Helpers that need to inspect values are eager-only: `find_header`, `row_to_names`, `remove_constant`, and `remove_empty(..., axis="cols" | "both")`.
 
-The package supports Python Polars `1.29.0` and newer. Compatibility tests run against that lower bound and the current lockfile version.
+The package supports CPython 3.10 through 3.14 and Python Polars `1.29.0` and newer. Compatibility tests run against that lower bound and the current lockfile version.
 
 The project favors broad Python Polars compatibility over direct Rust deserialization of Python lazy plans. Most eager frame helpers cross through `pyo3-polars`; lazy frames keep their plans in Python Polars, with Rust deciding what public Polars plan to build. `clean_names` is a little different: Rust cleans the names, then Polars' public `rename` API applies them.
 

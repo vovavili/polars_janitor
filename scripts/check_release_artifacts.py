@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from collections.abc import Callable
 
-PYTHON_TAGS = ("cp310", "cp311", "cp312", "cp313")
+PYTHON_TAGS = ("cp310", "cp311", "cp312", "cp313", "cp314")
 PLATFORM_CHECKS: dict[str, Callable[[str], bool]] = {
     "win_amd64": lambda name: "win_amd64" in name,
     "macos_x86_64": lambda name: "macosx" in name and "x86_64" in name,
