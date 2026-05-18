@@ -138,7 +138,7 @@ jobs:
         with:
           command: sdist
           maturin-version: v1.11.5
-          args: --locked --out dist
+          args: --out dist
           sccache: "true"
 
       - uses: actions/upload-artifact@v4
